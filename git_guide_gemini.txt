@@ -1,0 +1,76 @@
+1. The Mental Model: The Four Zones of Git
+
+To understand Git, you have to realize that your files live in four different "zones." Moving code from your laptop to GitHub means moving it through these zones one by one.
+
+    📁 Zone 1: The Working Directory (Your Laptop)
+
+        This is just the folder on your computer where you open your files in VS Code and type code. Git is watching this folder, but it hasn't permanently saved anything yet.
+
+    📦 Zone 2: The Staging Area (The Waiting Room)
+
+        Imagine you changed 5 files, but you only want to save 2 of them as a specific update. The staging area is where you put the files you are getting ready to save.
+
+    📸 Zone 3: The Local Repository (The Vault)
+
+        This is a hidden .git folder on your computer. When you "commit," you are taking a permanent snapshot of the staging area and locking it in this local vault. Even without the internet, your computer has a full history of your code.
+
+    ☁️ Zone 4: The Remote Repository (GitHub)
+
+        This is the server on the internet. You push your local vault up to this server so others can see it or so you have a cloud backup.
+
+2. The Daily Workflow (The "Bread and Butter")
+
+Important!!!
+First git init  to initialize the git in this folder
+
+Now that you have cloned the repo, you are in Zone 1. Here is the exact loop you will run every single time you write code.
+
+Step 1: Write some code
+You open a .py file, add a new function, and hit Ctrl + S to save.
+
+Step 2: Check what changed
+Always ask Git what it sees before you do anything.
+Bash
+
+git status
+
+Git will reply in red text: "Hey, you modified rag_engine.py but it is not staged for commit."
+
+Step 3: Move it to the Staging Area (Zone 1 → Zone 2)
+You need to tell Git which files you want to include in your next snapshot.
+Bash
+
+git add rag_engine.py
+
+(Pro-tip: If you want to add ALL changed files at once, use git add .)
+
+Step 4: Take the Snapshot (Zone 2 → Zone 3)
+Now you lock the files into your local vault with a descriptive message. Think of this as writing a sticky note for your future self.
+Bash
+
+git commit -m "Added the pure Python InMemoryVectorStore to fix Chroma crash"
+
+Step 5: Upload to GitHub (Zone 3 → Zone 4)
+Your code is safely versioned on your laptop, but GitHub doesn't know about it yet. You need to push it to the cloud.
+Bash
+
+git push origin main
+
+(This means: Push my code to the 'origin' server, specifically onto the 'main' timeline).
+3. Collaborating & Branching (The Pro Moves)
+
+If you are working with others, or just want to experiment without breaking your working code, you use these commands:
+
+    Getting Updates (git pull):
+    If your teammate pushes new code to GitHub, or if you edited the README.md directly on the GitHub website, your local laptop is now out of date. You pull their changes down to your laptop:
+    Bash
+
+    git pull origin main
+
+    Experimenting (git branch & git checkout):
+    Never test experimental code on your main timeline. Create a parallel universe (a branch) to test things out safely.
+    Bash
+
+    git checkout -b testing-new-llm
+
+    (This creates a new branch called "testing-new-llm" and moves you into it. If your code breaks, your main branch is still perfectly safe!).
